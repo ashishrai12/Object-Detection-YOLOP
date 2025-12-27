@@ -3,7 +3,7 @@ import os
 import shutil
 import sys
 import time
-from pathlib import Path-1
+from pathlib import Path
 
 import cv2
 import numpy as np
