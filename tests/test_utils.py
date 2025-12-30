@@ -9,7 +9,15 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from unittest.mock import MagicMock
-sys.modules['prefetch_generator'] = MagicMock()
+sys.modules['prefetch_generator'] = sys.modules['yaml'] = MagicMock()
+sys.modules['cv2'] = MagicMock()
+sys.modules['matplotlib'] = MagicMock()
+sys.modules['matplotlib.pyplot'] = MagicMock()
+sys.modules['scipy'] = MagicMock()
+sys.modules['scipy.cluster'] = MagicMock()
+sys.modules['scipy.cluster.vq'] = MagicMock()
+sys.modules['scipy.signal'] = MagicMock()
+sys.modules['tqdm'] = MagicMock()
 
 from lib.utils.utils import xyxy2xywh
 
