@@ -230,6 +230,14 @@ python tools/test.py --weights weights/End-to-end.pth
 
 
 
+### Tests
+
+To run the unit tests, use the following command:
+
+```shell
+python -m unittest discover tests
+```
+
 ### Demo Test
 
 We provide two testing method.
