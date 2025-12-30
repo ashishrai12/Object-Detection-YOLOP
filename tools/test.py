@@ -8,8 +8,6 @@ import torch
 import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
-
-import torch.optim
 import torch.utils.data
 import torch.utils.data.distributed
 import torchvision.transforms as transforms
