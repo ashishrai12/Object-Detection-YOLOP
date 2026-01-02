@@ -19,7 +19,7 @@ sys.modules['scipy.cluster.vq'] = MagicMock()
 sys.modules['scipy.signal'] = MagicMock()
 sys.modules['tqdm'] = MagicMock()
 
-from lib.utils.utils import xyxy2xywh, clean_str
+from lib.utils.utils import xyxy2xywh, clean_str, is_parallel
 from lib.utils.augmentations import _box_candidates
 
 class TestUtils(unittest.TestCase):
@@ -91,6 +91,14 @@ class TestUtils(unittest.TestCase):
         # w2=25, h2=1, ar=25. 25 < 20 is False.
         output = _box_candidates(box1, box2_bad_ar)
         self.assertFalse(output[0])
+
+    def test_is_parallel(self):
+        model = torch.nn.Linear(10, 10)
+        self.assertFalse(is_parallel(model))
+        
+        # Mock DataParallel
+        dp_model = torch.nn.DataParallel(model)
+        self.assertTrue(is_parallel(dp_model))
 
 if __name__ == '__main__':
     unittest.main()
