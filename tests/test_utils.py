@@ -19,7 +19,7 @@ sys.modules['scipy.cluster.vq'] = MagicMock()
 sys.modules['scipy.signal'] = MagicMock()
 sys.modules['tqdm'] = MagicMock()
 
-from lib.utils.utils import xyxy2xywh
+from lib.utils.utils import xyxy2xywh, clean_str
 
 class TestUtils(unittest.TestCase):
     def test_xyxy2xywh_numpy(self):
@@ -52,6 +52,25 @@ class TestUtils(unittest.TestCase):
         
         output = xyxy2xywh(input_boxes)
         np.testing.assert_array_equal(output, expected_output)
+
+    def test_xyxy2xywh_empty(self):
+        input_boxes = np.zeros((0, 4), dtype=np.float32)
+        expected_output = np.zeros((0, 4), dtype=np.float32)
+        
+        output = xyxy2xywh(input_boxes)
+        np.testing.assert_array_equal(output, expected_output)
+
+    def test_clean_str(self):
+        input_str = "hello@world#test"
+        expected_output = "hello_world_test"
+        output = clean_str(input_str)
+        self.assertEqual(output, expected_output)
+
+        input_str2 = "data/images!"
+        # Note: '!' is in the regex pattern [|@#!¡·$€%&()=?¿^*;:,¨´><+]
+        expected_output2 = "data/images_"
+        output2 = clean_str(input_str2)
+        self.assertEqual(output2, expected_output2)
 
 if __name__ == '__main__':
     unittest.main()
