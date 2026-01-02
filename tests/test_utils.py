@@ -8,6 +8,7 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+# Mocking dependencies that might not be available in all environments
 from unittest.mock import MagicMock
 sys.modules['prefetch_generator'] = sys.modules['yaml'] = MagicMock()
 sys.modules['cv2'] = MagicMock()
