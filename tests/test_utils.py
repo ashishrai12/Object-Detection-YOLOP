@@ -22,6 +22,7 @@ sys.modules['tqdm'] = MagicMock()
 from lib.utils.utils import xyxy2xywh, clean_str, is_parallel
 from lib.utils.augmentations import _box_candidates
 
+
 class TestUtils(unittest.TestCase):
     """Unit tests for utility functions in lib.utils.utils and lib.utils.augmentations"""
     def test_xyxy2xywh_numpy(self):
