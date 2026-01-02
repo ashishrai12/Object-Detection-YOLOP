@@ -20,6 +20,7 @@ sys.modules['scipy.signal'] = MagicMock()
 sys.modules['tqdm'] = MagicMock()
 
 from lib.utils.utils import xyxy2xywh, clean_str
+from lib.utils.augmentations import _box_candidates
 
 class TestUtils(unittest.TestCase):
     def test_xyxy2xywh_numpy(self):
@@ -71,6 +72,25 @@ class TestUtils(unittest.TestCase):
         expected_output2 = "data/images_"
         output2 = clean_str(input_str2)
         self.assertEqual(output2, expected_output2)
+
+    def test__box_candidates(self):
+        # box1: [0, 0, 10, 10], box2: [0, 0, 8, 8]
+        # w1=10, h1=10, w2=8, h2=8
+        # area1=100, area2=64, ratio=0.64
+        # ar = 8/8 = 1
+        box1 = np.array([[0, 0, 10, 10]]).T
+        box2 = np.array([[0, 0, 8, 8]]).T
+        
+        # wh_thr=2, ar_thr=20, area_thr=0.1
+        # w2 > 2 (8>2), h2 > 2 (8>2), area_ratio > 0.1 (0.64 > 0.1), ar < 20 (1 < 20) -> True
+        output = _box_candidates(box1, box2)
+        self.assertTrue(output[0])
+
+        # Test failure due to aspect ratio
+        box2_bad_ar = np.array([[0, 0, 25, 1]]).T
+        # w2=25, h2=1, ar=25. 25 < 20 is False.
+        output = _box_candidates(box1, box2_bad_ar)
+        self.assertFalse(output[0])
 
 if __name__ == '__main__':
     unittest.main()
