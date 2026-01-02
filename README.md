@@ -1,5 +1,5 @@
 
-## You Only :eyes: Once for Panoptic ​ :car: Perception
+## You Only Once for Panoptic Perception
 
 YOLOP (You Only Look Once for Panoptic driving Perception) is a real-time, multi-task neural network for autonomous driving that performs traffic object detection, drivable area segmentation, and lane detection simultaneously.
 
@@ -9,7 +9,7 @@ YOLOP (You Only Look Once for Panoptic driving Perception) is a real-time, multi
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### 1. Installation
 
@@ -88,7 +88,7 @@ python -m unittest discover tests
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 ├─inference
@@ -109,7 +109,7 @@ python -m unittest discover tests
 
 ---
 
-## 📊 Performance & Results
+## Performance & Results
 
 ### Traffic Object Detection
 
@@ -133,7 +133,7 @@ For detailed ablation studies and comparisons with other models, please refer to
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
 We provide code for deployment on Jetson TX2 using TensorRT.
 
