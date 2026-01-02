@@ -58,6 +58,7 @@ class TestUtils(unittest.TestCase):
         np.testing.assert_array_equal(output, expected_output)
 
     def test_xyxy2xywh_empty(self):
+        # Handle cases where no boxes are detected
         input_boxes = np.zeros((0, 4), dtype=np.float32)
         expected_output = np.zeros((0, 4), dtype=np.float32)
         
