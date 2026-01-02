@@ -28,7 +28,7 @@ Download the BDD100K dataset and annotations:
 - [Drivable Area Annotations](https://drive.google.com/file/d/1xy_DhUZRHR8yrZG3OwTQAHhYTnXn7URv/view?usp=sharing)
 - [Lane Line Annotations](https://drive.google.com/file/d/1lDNTPIQj_YLNZVkksKM25CvCHuquJ8AP/view?usp=sharing)
 
-Organize your dataset as follows and update the path in `./lib/config/default.py`:
+Organize your dataset as follows and update the paths in `./lib/config/default.py` (specifically `_C.DATASET.DATAROOT` and related fields):
 
 ```
 ├─dataset root
@@ -60,14 +60,21 @@ python -m torch.distributed.launch --nproc_per_node=N tools/train.py
 
 ### 4. Inference / Demo
 
-Run inference on images or videos:
+Run inference on images or videos using the standard demo script:
 
 ```bash
-# Run on a folder of images
-python tools/demo.py --source inference/images
+# Run on a folder of images (ensure the path exists or is created)
+python tools/demo.py --source inference/images --weights weights/End-to-end.pth
 
 # Run on webcam (default 0)
 python tools/demo.py --source 0
+```
+
+#### Side-by-Side Comparison Demo
+For a better visualization that shows the original video and the processed perception result side-by-side, use the `src/demo_side_by_side.py` script:
+
+```bash
+python src/demo_side_by_side.py --source path/to/video.mp4 --weights weights/End-to-end.pth
 ```
 
 ### 5. Evaluation
@@ -80,7 +87,7 @@ python tools/test.py --weights weights/End-to-end.pth
 
 ### 6. Running Tests
 
-Run the unit tests to verify installation:
+This repository includes unit tests to verify the core utility functions:
 
 ```bash
 python -m unittest discover tests
@@ -91,20 +98,20 @@ python -m unittest discover tests
 ## Project Structure
 
 ```
-├─inference
-│ ├─images           # Inference inputs
-│ ├─output           # Inference results
-├─lib
-│ ├─config           # Configuration files
+├─lib/                # Core library
+│ ├─config           # Configuration files (Update default.py for your paths)
 │ ├─core             # Core training/eval capabilities
 │ ├─dataset          # Dataset loaders (BDD100K)
 │ ├─models           # YOLOP model definition
 │ ├─utils            # Utilities (logging, plotting, etc.)
-├─tools
-│ ├─demo.py          # Inference script
+├─tools/              # Main execution scripts
+│ ├─demo.py          # Standard inference script
 │ ├─test.py          # Evaluation script
 │ ├─train.py         # Training script
-├─weights            # Pre-trained weights
+├─src/                # Additional tools
+│ ├─demo_side_by_side.py  # Side-by-side visualization demo
+├─tests/              # Unit tests for the codebase
+├─weights/            # Pre-trained weights (.pth and .onnx formats)
 ```
 
 ---
@@ -133,17 +140,16 @@ For detailed ablation studies and comparisons with other models, please refer to
 
 ---
 
-## Deployment
+## Deployment & Export
 
-We provide code for deployment on Jetson TX2 using TensorRT.
+### TensorRT Deployment
+Check the `toolkits/deploy` folder for C++ implementation on Jetson TX2.
 
-1.  **Generate WTS file:**
-    ```bash
-    python toolkits/deploy/gen_wts.py
-    ```
-
-2.  **Build Engine & Run:**
-    Check `toolkits/deploy` folder for C++ implementation.
+### ONNX Weights
+We provide pre-trained ONNX weights in the `weights/` directory for different resolutions:
+- `yolop-320-320.onnx`
+- `yolop-640-640.onnx`
+- `yolop-1280-1280.onnx`
 
 ---
 
